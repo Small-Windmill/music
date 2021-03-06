@@ -4,7 +4,8 @@ module.exports = {
     loaderOptions: {
       scss: {
         additionalData: `@import "~@/common/styles/variable.scss";
-        @import "~@/common/styles/mixin.scss";`,
+        @import "~@/common/styles/mixin.scss";
+        `,
 
       },
     },
