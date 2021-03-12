@@ -1,4 +1,17 @@
 module.exports = {
+  devServer: {
+    hot: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3200',
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    },
+  },
   runtimeCompiler: true,
   css: {
     loaderOptions: {
