@@ -149,7 +149,7 @@ export default {
 
       img {
         display: block;
-        width: 96%;
+        width: 100%;
       }
     }
   }

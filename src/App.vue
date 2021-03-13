@@ -2,7 +2,10 @@
   <div id="app">
     <m-header></m-header>
     <tab></tab>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+
   </div>
 </template>
 
@@ -18,3 +21,9 @@ export default {
 };
 
 </script>
+<style lang="scss" >
+* {
+  margin: 0;
+  padding: 0;
+}
+</style>

@@ -12,7 +12,17 @@
      </div>
      <div class="recommend-list">
        <h1 class="list-title">热门歌单推荐</h1>
-       <ul></ul>
+       <ul>
+         <li v-for="item in discList" class="item" :key="item.content_id">
+           <div class="icon">
+             <img :src="item.cover" width="80" height="80">
+           </div>
+           <div class="text">
+             <h2 class="name" v-html="item.title"></h2>
+             <p class="desc">播放量: {{item.listen_num | filter}}</p>
+           </div>
+         </li>
+       </ul>
      </div>
    </div>
  </div>
@@ -20,20 +30,30 @@
 
 <script>
 import Slider from '../../base/slider/slider';
-import { getRecommend } from '../../api/recommend';
+import { getRecommend, getDiscList } from '../../api/recommend';
 import { ERR_OK } from '../../api/config';
 
 export default {
+  filters: {
+    filter(num) {
+      // 根据真实数据计算出显示的字符串
+      // ().toFixed(n)四舍五入取n位小数，运算后得到的是字符串
+      if (num > 10000) return `${(num / 10000).toFixed(1)}万`;
+      return num;
+    },
+  },
   components: {
     Slider,
   },
   data() {
     return {
       recommends: [],
+      discList: [],
     };
   },
   created() {
     this._getRecommend();
+    this._getDiscList();
   },
   methods: {
     _getRecommend() {
@@ -42,6 +62,15 @@ export default {
         if (res.code === ERR_OK) {
           this.recommends = res.data.banner;
           console.log(res.data.banner);
+        }
+      });
+    },
+    _getDiscList() {
+      getDiscList().then((res) => {
+        res = res.data.response.recomPlaylist;
+        if (res.code === ERR_OK) {
+          this.discList = res.data.v_hot;
+          console.log(res.data.v_hot);
         }
       });
     },
@@ -86,8 +115,8 @@ export default {
           // flex 属性是 flex-grow、flex-shrink 和 flex-basis 属性的简写属性。
           // 项目将相对于其他灵活的项目进行扩展的量、收缩的量、项目的长度
           flex: 0 0 60px;
-          width: 60px;
-          padding-right: 20px;
+          width: 80px;
+          padding-right: 24px;
         }
 
         .text {
