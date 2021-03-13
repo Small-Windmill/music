@@ -1,34 +1,37 @@
 <template>
  <div class="recommend">
-   <div class="recommend-content">
-     <div class="slider-wrapper" v-if="recommends.length">
-       <slider>
-         <div v-for="item in recommends" :key="item.actid">
-           <a :href="item.jumpurl">
-             <img :src="item.picurl" >
-           </a>
-         </div>
-       </slider>
-     </div>
-     <div class="recommend-list">
-       <h1 class="list-title">热门歌单推荐</h1>
-       <ul>
-         <li v-for="item in discList" class="item" :key="item.content_id">
-           <div class="icon">
-             <img :src="item.cover" width="80" height="80">
-           </div>
-           <div class="text">
-             <h2 class="name" v-html="item.title"></h2>
-             <p class="desc">播放量: {{item.listen_num | filter}}</p>
-           </div>
-         </li>
-       </ul>
-     </div>
-   </div>
+   <scroll ref="scroll" class="recommend-content" :data="discList">
+    <div>
+       <div class="slider-wrapper" v-if="recommends.length">
+          <slider>
+            <div v-for="item in recommends" :key="item.actid">
+              <a :href="item.jumpurl">
+                <img @load="loadImage" :src="item.picurl" >
+              </a>
+            </div>
+          </slider>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li v-for="item in discList" class="item" :key="item.content_id">
+              <div class="icon">
+                <img :src="item.cover" width="70" height="70">
+              </div>
+              <div class="text">
+                <h2 class="name" v-text="item.title"></h2>
+                <p class="desc">播放量: {{item.listen_num | filter}}</p>
+              </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+   </scroll>
  </div>
 </template>
 
 <script>
+import Scroll from '../../base/scroll/scroll';
 import Slider from '../../base/slider/slider';
 import { getRecommend, getDiscList } from '../../api/recommend';
 import { ERR_OK } from '../../api/config';
@@ -44,6 +47,7 @@ export default {
   },
   components: {
     Slider,
+    Scroll,
   },
   data() {
     return {
@@ -73,6 +77,13 @@ export default {
           console.log(res.data.v_hot);
         }
       });
+    },
+    loadImage() {
+      if (!this.checkLoaded) {
+        this.$refs.scroll.refresh();
+        this.checkLoaded = true;
+      }
+
     },
   },
 };
@@ -114,9 +125,9 @@ export default {
           //flex 属性用于设置或检索弹性盒模型对象的子元素如何分配空间。
           // flex 属性是 flex-grow、flex-shrink 和 flex-basis 属性的简写属性。
           // 项目将相对于其他灵活的项目进行扩展的量、收缩的量、项目的长度
-          flex: 0 0 60px;
-          width: 80px;
-          padding-right: 24px;
+          flex: 0 0 70px;
+          width: 70px;
+          padding-right: 22px;
         }
 
         .text {
@@ -138,15 +149,15 @@ export default {
           }
         }
       }
+    }
 
-      .loading-container {
-        position: absolute;
-        width: 100%;
-        top: 50;
-        // 实现元素垂直居中效果
-        // 让div 沿Y轴平移自身高度的一半
-        transform: translateY(-50%);
-      }
+    .loading-container {
+      position: absolute;
+      width: 100%;
+      top: 50;
+      // 实现元素垂直居中效果
+      // 让div 沿Y轴平移自身高度的一半
+      transform: translateY(-50%);
     }
   }
 }
