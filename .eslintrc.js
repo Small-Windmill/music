@@ -63,5 +63,6 @@ module.exports = {
     'prefer-spread': 0,
     'no-nested-ternary': 0,
     'vue/require-v-for-key': 0,
+    'global-require': 0,
   },
 };
