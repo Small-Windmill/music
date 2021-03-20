@@ -64,5 +64,8 @@ module.exports = {
     'no-nested-ternary': 0,
     'vue/require-v-for-key': 0,
     'global-require': 0,
+    'no-bitwise': 0,
+    'no-useless-return': 0,
+    'for-direction': 0,
   },
 };
