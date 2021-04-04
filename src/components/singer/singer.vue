@@ -1,10 +1,12 @@
 <template>
   <div class="singer">
-    <list-view :data="singers"></list-view>
+    <list-view @select="selectSinger" :data="singers"></list-view>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import { getSingerList } from '../../api/singer';
 import { ERR_OK } from '../../api/config';
 import { Getinitial } from '../../common/js/singerName';
@@ -27,12 +29,16 @@ export default {
     this._getSingerList();
   },
   methods: {
+    selectSinger(singer) {
+      this.$router.push({
+        path: `/singer/${singer.id}`,
+      });
+      this.setSinger(singer);
+    },
     _getSingerList() {
       getSingerList().then((res) => {
-        res = res.data.response.singerList;
-        if (res.code === ERR_OK) {
-          this.singers = this._normalizeSinger(res.data.singerlist);
-          console.log(this.singers);
+        if (res.data.code === ERR_OK) {
+          this.singers = this._normalizeSinger(res.data.artists);
         }
       });
     },
@@ -44,14 +50,15 @@ export default {
         },
       };
       list.forEach((item, index) => {
+        item.picUrl += '?param=300x300';
         if (index < HOT_SINGER_LEN) {
           map.hot.items.push(new Singer({
-            id: item.singer_mid,
-            name: item.singer_name,
-            avatar: item.singer_pic,
+            id: item.id,
+            name: item.name,
+            avatar: item.picUrl,
           }));
         }
-        const key = Getinitial(item.singer_name);
+        const key = Getinitial(item.name);
         if (!map[key]) {
           map[key] = {
             title: key,
@@ -59,9 +66,9 @@ export default {
           };
         }
         map[key].items.push(new Singer({
-          id: item.singer_mid,
-          name: item.singer_name,
-          avatar: item.singer_pic,
+          id: item.id,
+          name: item.name,
+          avatar: item.picUrl,
         }));
       });
       // 为了得到有序列表，我们需要处理map
@@ -79,8 +86,12 @@ export default {
         return a.title.charCodeAt(0) - b.title.charCodeAt(0);
       });
       // concat() 方法用于连接两个或多个数组。该方法不会改变现有的数组，而仅仅会返回被连接数组的一个副本。
+
       return hot.concat(ret);
     },
+    ...mapMutations({
+      setSinger: 'SET_SINGER',
+    }),
   },
 };
 

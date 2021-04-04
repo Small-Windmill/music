@@ -4,9 +4,9 @@
     <div>
        <div class="slider-wrapper" v-if="recommends.length">
           <slider>
-            <div v-for="item in recommends" :key="item.actid">
-              <a :href="item.jumpurl">
-                <img class="needsclick" @load="loadImage" :src="item.picurl" >
+            <div v-for="(item,index) in recommends" :key="index">
+              <a :href="item.url">
+                <img class="needsclick" @load="loadImage" :src="item.imageUrl" >
               </a>
             </div>
           </slider>
@@ -14,13 +14,13 @@
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
           <ul>
-            <li v-for="item in discList" class="item" :key="item.content_id">
+            <li v-for="item in discList" class="item" :key="item.id">
               <div class="icon">
-                <img v-lazy="item.cover" width="70" height="70">
+                <img v-lazy="item.picUrl" width="70" height="70">
               </div>
               <div class="text">
-                <h2 class="name" v-text="item.title"></h2>
-                <p class="desc">播放量: {{item.listen_num | filter}}</p>
+                <h2 class="name" v-text="item.name"></h2>
+                <p class="desc">播放量: {{item.playCount | filter}}</p>
               </div>
           </li>
         </ul>
@@ -67,19 +67,21 @@ export default {
   methods: {
     _getRecommend() {
       getRecommend().then((res) => {
-        res = res.data.response;
         if (res.code === ERR_OK) {
-          this.recommends = res.data.banner;
-          console.log(res.data.banner);
+          this.recommends = res.banners;
         }
       });
     },
     _getDiscList() {
       getDiscList().then((res) => {
-        res = res.data.response.recomPlaylist;
+        // res = res.data.response.recomPlaylist;
+        // if (res.code === ERR_OK) {
+        //   this.discList = res.data.v_hot;
+        //   console.log(res.data.v_hot);
+        // }
+        console.log(res.result);
         if (res.code === ERR_OK) {
-          this.discList = res.data.v_hot;
-          console.log(res.data.v_hot);
+          this.discList = res.result;
         }
       });
     },
@@ -140,7 +142,7 @@ export default {
           flex-direction: column;
           justify-content: center;
           flex: 1;
-          line-height: 20px;
+          line-height: 24px;
           overflow: hidden;
           font-size: $font-size-medium;
 

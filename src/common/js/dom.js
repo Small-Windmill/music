@@ -22,7 +22,7 @@ export function getData(el, name, val) {
 }
 
 const elementStyle = document.createElement('div').style;
-
+// vendor 供应商
 const vendor = (() => {
   const transformNames = {
     webkit: 'webkitTransform',
