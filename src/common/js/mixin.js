@@ -5,6 +5,7 @@ import { shuffle } from './util';
 
 export const playlistMixin = {
   computed: {
+    // 通过getters拿到playlist
     ...mapGetters([
       'playlist',
     ]),
@@ -22,6 +23,8 @@ export const playlistMixin = {
   },
   methods: {
     handlePlaylist() {
+      // 具体方法要到具体组件实现
+      // 抛个异常，组件必须实现这个函数，一旦组件定义这个函数，它就会覆盖mixin里的这个函数。如果没有则调用mixin里的这个函数
       throw new Error('component must implement handlePlaylist method');
     },
   },

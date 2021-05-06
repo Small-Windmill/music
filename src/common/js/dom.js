@@ -1,5 +1,5 @@
 export function hasClass(el, className) {
-  const reg = new RegExp(`(^|\\s)${className}(\\s|$)`);
+  let reg = new RegExp(`(^|\\s)${className}(\\s|$)`);
   return reg.test(el.className);
 }
 
@@ -8,7 +8,7 @@ export function addClass(el, className) {
     return;
   }
 
-  const newClass = el.className.split(' ');
+  let newClass = el.className.split(' ');
   newClass.push(className);
   el.className = newClass.join(' ');
 }
@@ -21,10 +21,10 @@ export function getData(el, name, val) {
   return el.getAttribute(prefix + name);
 }
 
-const elementStyle = document.createElement('div').style;
-// vendor 供应商
-const vendor = (() => {
-  const transformNames = {
+let elementStyle = document.createElement('div').style;
+
+let vendor = (() => {
+  let transformNames = {
     webkit: 'webkitTransform',
     Moz: 'MozTransform',
     O: 'OTransform',
@@ -32,7 +32,7 @@ const vendor = (() => {
     standard: 'transform',
   };
 
-  for (const key in transformNames) {
+  for (let key in transformNames) {
     if (elementStyle[transformNames[key]] !== undefined) {
       return key;
     }

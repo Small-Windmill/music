@@ -193,6 +193,7 @@ export default {
         width: 50px;
         height: 50px;
         border-radius: 50%;
+        // 保持原有尺寸比例
         object-fit: cover;
       }
 

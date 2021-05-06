@@ -67,5 +67,6 @@ module.exports = {
     'no-bitwise': 0,
     'no-useless-return': 0,
     'for-direction': 0,
+
   },
 };
