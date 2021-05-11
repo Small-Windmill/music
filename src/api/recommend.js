@@ -9,3 +9,7 @@ export function getRecommend() {
 export function getDiscList() {
   return axios.get('/api/personalized');
 }
+
+export function getSongList(id) {
+  return axios.get(`api/playlist/detail?id=${id}`);
+}

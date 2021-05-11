@@ -14,7 +14,7 @@
         <div class="recommend-list">
           <h1 class="list-title">热门歌单推荐</h1>
           <ul>
-            <li v-for="item in discList" class="item" :key="item.id">
+            <li @click="selectItem(item)" v-for="item in discList" class="item" :key="item.id">
               <div class="icon">
                 <img v-lazy="item.picUrl" width="70" height="70">
               </div>
@@ -30,10 +30,12 @@
       <loading></loading>
     </div>
    </scroll>
+   <router-view></router-view>
  </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import Loading from '../../base/loading/loading';
 import Scroll from '../../base/scroll/scroll';
 import Slider from '../../base/slider/slider';
@@ -73,6 +75,13 @@ export default {
       // 调用refresh()让scroll重新计算高度
       this.$refs.scroll.refresh();
     },
+    selectItem(item) {
+      this.$router.push({
+        path: `/recommend/${item.id}`,
+      });
+      this.setDisc(item);
+      console.log(item);
+    },
     _getRecommend() {
       getRecommend().then((res) => {
         if (res.code === ERR_OK) {
@@ -100,7 +109,11 @@ export default {
       }
 
     },
+    ...mapMutations({
+      setDisc: 'SET_DISC',
+    }),
   },
+
 };
 
 </script>

@@ -157,8 +157,8 @@ export default {
 
     .back {
       position: absolute;
-      top: 0;
-      left: 6px;
+      top: -1px;
+      left: 0;
       z-index: 50;
 
       .icon-back {
