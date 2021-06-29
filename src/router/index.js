@@ -6,6 +6,7 @@ import Singer from '../components/singer/singer';
 import Rank from '../components/rank/rank';
 import SingerDetail from '../components/singer-detail/singer-detail';
 import Disc from '../components/disc/disc.vue';
+import TopList from '../components/top-list/top-list.vue';
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,10 @@ const routes = [
     path: '/rank',
     name: 'Rank',
     component: Rank,
+    children: [{
+      path: ':id',
+      component: TopList,
+    }],
   },
 
 ];

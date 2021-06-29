@@ -2,6 +2,9 @@
   <div class="song-list">
     <ul>
       <li @click="selectItem(song,index)" v-for="(song,index) in songs" class="item" :key="song.id">
+        <div class="rank" v-show="rank">
+          <span :class="getRankCls(index)">{{getRankText(index)}}</span>
+        </div>
         <div class="content">
           <h2 class="name">{{song.name}}</h2>
           <p class="desc">{{getDesc(song)}}</p>
@@ -20,6 +23,11 @@ export default {
       // eslint-disable-next-line vue/require-valid-default-prop
       default: [],
     },
+    rank: {
+      type: Boolean,
+      // 默认它是没有排行的样式
+      default: false,
+    },
   },
   methods: {
     selectItem(item, index) {
@@ -27,6 +35,20 @@ export default {
     },
     getDesc(song) {
       return `${song.singer} - ${song.album}`;
+    },
+    getRankCls(index) {
+      // 前3名就返回图片的样式
+      if (index <= 2) {
+        return `icon icon${index}`;
+      } else {
+        return 'text';
+      }
+    },
+    // eslint-disable-next-line consistent-return
+    getRankText(index) {
+      if (index > 2) {
+        return index + 1;
+      }
     },
   },
 };
