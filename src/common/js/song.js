@@ -24,8 +24,11 @@ export default class Song {
     return new Promise((resolve, reject) => {
       getLyric(this.id).then((res) => {
         if (res.data.code === ERR_OK) {
-          this.lyric = res.data.lrc.lyric;
-          resolve(this.lyric);
+          // eslint-disable-next-line no-prototype-builtins
+          if (res.data.hasOwnProperty('lrc')) {
+            this.lyric = res.data.lrc.lyric;
+            resolve(this.lyric);
+          }
         } else {
           // 获取不到歌词
           // eslint-disable-next-line prefer-promise-reject-errors

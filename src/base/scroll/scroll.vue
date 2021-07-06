@@ -26,6 +26,7 @@ export default {
       type: Array,
       default: null,
     },
+    // 是否开启上拉刷新
     pullup: {
       type: Boolean,
       default: false,
@@ -38,6 +39,7 @@ export default {
       type: Number,
       default: 20,
     },
+
   },
   mounted() {
     setTimeout(() => {
@@ -61,6 +63,7 @@ export default {
         });
       }
       if (this.pullup) {
+        // 当滚动结束的时候会派发scrollEnd事件
         this.scroll.on('scrollEnd', () => {
           if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
             this.$emit('scrollToEnd');
