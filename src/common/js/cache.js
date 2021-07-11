@@ -3,6 +3,11 @@ import storage from 'good-storage';
 const SEARCH_KEY = '__search__';
 // 最大只能存15条数据
 const SEARCH_MAX_LENGTH = 15;
+
+const PLAY_KEY = '__play__';
+// 存储最近播放的200首歌曲
+const PLAY_MAX_LENGTH = 200;
+
 // 添加方法：最新的搜索结果总是展现在最前面
 function insertArray(arr, val, compare, maxLen) {
   // 查找数据是否存在在数组中
@@ -58,4 +63,16 @@ export function deleteSearch(query) {
 export function clearSearch() {
   storage.remove(SEARCH_KEY);
   return [];
+}
+export function savePlay(song) {
+  let songs = storage.get(PLAY_KEY, []);
+  insertArray(songs, song, (item) => {
+    // 比较函数： 如果song在里面的话，就挪到前面去
+    return item.id === song.id;
+  }, PLAY_MAX_LENGTH);
+  storage.set(PLAY_KEY, songs);
+  return songs;
+}
+export function loadPlay() {
+  return storage.get(PLAY_KEY, []);
 }

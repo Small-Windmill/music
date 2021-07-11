@@ -34,6 +34,7 @@ export const playerMixin = {
     iconMode() {
       return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random';
     },
+
     ...mapGetters([
       'sequenceList',
       'playlist',
@@ -44,12 +45,14 @@ export const playerMixin = {
   },
   methods: {
     changeMode() {
+      // 有3种播放模式，每点击一次就改变它的mode
       const mode = (this.mode + 1) % 3;
       this.setPlayMode(mode);
       let list = null;
-      if (mode === playMode.random) {
+      if (this.mode === playMode.random) {
         list = shuffle(this.sequenceList);
       } else {
+        // 如果是顺序播放或者循环播放
         list = this.sequenceList;
       }
       this.resetCurrentIndex(list);

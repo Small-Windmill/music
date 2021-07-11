@@ -1,6 +1,6 @@
 <template>
   <div class="search-list" v-show="searches.length">
-    <ul>
+    <transition-group name="list" tag="ul">
       <li @click="selectItem(item)" class="search-item" v-for="(item,index) in searches" :key="index">
         <span class="text">{{item}}</span>
         <!-- .stop防止冒泡事件触发到上面的click -->
@@ -8,7 +8,7 @@
           <i class="iconfont icon-delete"></i>
         </span>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 

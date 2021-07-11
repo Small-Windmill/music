@@ -69,7 +69,6 @@
         <div class="icon">
           <img :class="cdCls" width="40" height="40" :src="currentSong.image">
         </div>
-
         <div class="text">
           <h2 class="name" v-html="currentSong.name"></h2>
           <p class="desc" v-html="currentSong.singer"></p>
@@ -80,30 +79,33 @@
           <i @click.stop="togglePlaying" class="iconfont icon-play-mini icon-mini" :class=" miniIcon"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click.stop="showPlaylist">
           <i class="iconfont icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <playlist ref="playlist"></playlist>
     <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import animations from 'create-keyframe-animation';
 import Lyric from 'lyric-parser';
 import { prefixStyle } from '../../common/js/dom';
 import ProgressBar from '../../base/progress-bar/progress-bar';
 import ProgressCircle from '../../base/progress-circle/progress-circle';
 import { playMode } from '../../common/js/config';
-import { shuffle } from '../../common/js/util';
 import Scroll from '../../base/scroll/scroll';
+import Playlist from '../playlist/playlist.vue';
+import { playerMixin } from '../../common/js/mixin';
 
 const transform = prefixStyle('transform');
 const transitionDuration = prefixStyle('transitionDuration');
 export default {
   name: 'player',
+  mixins: [playerMixin],
   data() {
     return {
       songReady: false,
@@ -123,9 +125,6 @@ export default {
     playIcon() {
       return this.playing ? 'icon-pause' : 'icon-play';
     },
-    iconMode() {
-      return this.mode === playMode.sequence ? 'icon-sequence' : this.mode === playMode.loop ? 'icon-loop' : 'icon-random';
-    },
     miniIcon() {
       return this.playing ? 'icon-pause' : 'icon-play';
     },
@@ -137,11 +136,8 @@ export default {
     },
     ...mapGetters([
       'fullScreen',
-      'playlist',
-      'currentSong',
       'playing',
       'currentIndex',
-      'mode',
       'sequenceList',
     ]),
   },
@@ -261,6 +257,7 @@ export default {
     },
     ready() {
       this.songReady = true;
+      this.savePlayHistory(this.currentSong);
     },
     error() {
       this.songReady = true;
@@ -286,26 +283,6 @@ export default {
       if (this.currentLyric) {
         this.currentLyric.seek(currentTime * 1000);
       }
-    },
-    changeMode() {
-      // 有3种播放模式，每点击一次就改变它的mode
-      const mode = (this.mode + 1) % 3;
-      this.setPlayMode(mode);
-      let list = null;
-      if (this.mode === playMode.random) {
-        list = shuffle(this.sequenceList);
-      } else {
-        // 如果是顺序播放或者循环播放
-        list = this.sequenceList;
-      }
-      this.resetCurrentIndex(list);
-      this.setPlaylist(list);
-    },
-    resetCurrentIndex(list) {
-      let index = list.findIndex((item) => {
-        return item.id === this.currentSong.id;
-      });
-      this.setCurrentIndex(index);
     },
     getLyric() {
       this.currentSong.getLyric().then((lyric) => {
@@ -423,16 +400,21 @@ export default {
         x, y, scale,
       };
     },
+    showPlaylist() {
+      this.$refs.playlist.show();
+    },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN',
-      setPlayingState: 'SET_PLAYING_STATE',
-      setCurrentIndex: 'SET_CURRENT_INDEX',
-      setPlayMode: 'SET_PLAY_MODE',
-      setPlaylist: 'SET_PLAYLIST',
     }),
+    ...mapActions([
+      'savePlayHistory',
+    ]),
   },
   watch: {
     currentSong(newSong, oldSong) {
+      if (!newSong.id) {
+        return;
+      }
       if (newSong.id === oldSong.id) {
         return;
       }
@@ -460,6 +442,7 @@ export default {
     ProgressBar,
     ProgressCircle,
     Scroll,
+    Playlist,
   },
 };
 </script>
