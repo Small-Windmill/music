@@ -7,7 +7,7 @@
         </div>
         <div class="top">
           <div class="back" @click="back">
-            <i class="iconfont icon-back">&#xe614;</i>
+            <i class="iconfont icon-back"></i>
           </div>
           <h1 class="title" v-html="currentSong.name"></h1>
           <h2 class="subtitle" v-html="currentSong.singer"></h2>
@@ -58,7 +58,7 @@
               <i @click="next" class="iconfont icon-next"></i>
             </div>
             <div class="icon i-right">
-              <i class="iconfont icon-not-favorite"></i>
+              <i class="iconfont icon" @click="toggleFavorite(currentSong)" :class="getFavoriteIcon(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@
       </div>
     </transition>
     <playlist ref="playlist"></playlist>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
+    <audio ref="audio" :src="currentSong.url" @play="ready" @error="error" @timeupdate="updateTime" @ended="end"></audio>
   </div>
 </template>
 
@@ -223,6 +223,7 @@ export default {
       }
       if (this.playlist.length === 1) {
         this.loop();
+        return;
       } else {
         // 因为是下一首歌，当前索引+1
         let index = this.currentIndex + 1;
@@ -421,7 +422,8 @@ export default {
       if (this.currentLyric) {
         this.currentLyric.stop();
       }
-      setTimeout(() => {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
         this.$refs.audio.play().catch((error) =>  {
           this.togglePlaying();
           // eslint-disable-next-line no-alert

@@ -8,6 +8,9 @@ const PLAY_KEY = '__play__';
 // 存储最近播放的200首歌曲
 const PLAY_MAX_LENGTH = 200;
 
+const FAVORITE_KEY = '__favorite__';
+const FAVORITE_MAX_LENGTH = 200;
+
 // 添加方法：最新的搜索结果总是展现在最前面
 function insertArray(arr, val, compare, maxLen) {
   // 查找数据是否存在在数组中
@@ -75,4 +78,24 @@ export function savePlay(song) {
 }
 export function loadPlay() {
   return storage.get(PLAY_KEY, []);
+}
+
+export function saveFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, []);
+  insertArray(songs, song, (item) => {
+    return song.id === item.id;
+  }, FAVORITE_MAX_LENGTH);
+  storage.set(FAVORITE_KEY, songs);
+  return songs;
+}
+export function deleteFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, []);
+  deleteFromArray(songs, (item) => {
+    return song.id === item.id;
+  });
+  storage.set(FAVORITE_KEY, songs);
+  return songs;
+}
+export function loadFavorite() {
+  return storage.get(FAVORITE_KEY, []);
 }

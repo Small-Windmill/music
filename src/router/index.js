@@ -7,6 +7,7 @@ import Rank from '../components/rank/rank';
 import SingerDetail from '../components/singer-detail/singer-detail';
 import Disc from '../components/disc/disc.vue';
 import TopList from '../components/top-list/top-list.vue';
+import UserCenter from '../components/user-center/user-center.vue';
 
 Vue.use(VueRouter);
 
@@ -44,7 +45,11 @@ const routes = [
       component: TopList,
     }],
   },
-
+  {
+    path: '/user',
+    name: 'User',
+    component: UserCenter,
+  },
 ];
 
 const router = new VueRouter({

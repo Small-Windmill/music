@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2403918 */
-  src: url('../iconfont/iconfont.woff2?t=1625883161810') format('woff2'),
-       url('../iconfont/iconfont.woff?t=1625883161810') format('woff'),
-       url('../iconfont/iconfont.ttf?t=1625883161810') format('truetype');
+  src: url('../iconfont/iconfont.woff2?t=1626100749085') format('woff2'),
+       url('../iconfont/iconfont.woff?t=1626100749085') format('woff'),
+       url('../iconfont/iconfont.ttf?t=1626100749085') format('truetype');
 }
 
 .iconfont {
@@ -17,7 +17,7 @@
   content: "\e7fe";
 }
 
-.iconfanhui1:before {
+.icon-back:before {
   content: "\e614";
 }
 
@@ -82,4 +82,7 @@
 }
 .icon-ok:before {
   content: "\e678";
+}
+.icon-favorite:before {
+  content: "\e699";
 }

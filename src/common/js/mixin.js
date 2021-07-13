@@ -77,6 +77,7 @@ export const playerMixin = {
       }
       return 'icon-not-favorite';
     },
+    // 判断当前点击的歌曲是不是收藏列表里的
     isFavorite(song) {
       const index = this.favoriteList.findIndex((item) => {
         return item.id === song.id;
