@@ -23,10 +23,10 @@ export default class Song {
     // 封装Promise，只用于获取歌词
     return new Promise((resolve, reject) => {
       getLyric(this.id).then((res) => {
-        if (res.data.code === ERR_OK) {
+        if (res.code === ERR_OK) {
           // eslint-disable-next-line no-prototype-builtins
-          if (res.data.hasOwnProperty('lrc')) {
-            this.lyric = res.data.lrc.lyric;
+          if (res.hasOwnProperty('lrc')) {
+            this.lyric = res.lrc.lyric;
             resolve(this.lyric);
           }
         } else {

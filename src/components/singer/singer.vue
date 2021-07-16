@@ -44,8 +44,8 @@ export default {
     },
     _getSingerList() {
       getSingerList().then((res) => {
-        if (res.data.code === ERR_OK) {
-          this.singers = this._normalizeSinger(res.data.artists);
+        if (res.code === ERR_OK) {
+          this.singers = this._normalizeSinger(res.artists);
         }
       });
     },

@@ -42,11 +42,12 @@ export default {
     search() {
       // 请求服务端的检索数据
       search(this.query).then((res) => {
-        if (res.data.code === ERR_OK) {
+        console.log(res);
+        if (res.code === ERR_OK) {
           // if (res.data.result.songCount === 0) {
           //   this.result = [];
           // } else {
-          this.result = this._normalizeSongs(res.data.result.songs);
+          this.result = this._normalizeSongs(res.result.songs);
           // }
 
         }

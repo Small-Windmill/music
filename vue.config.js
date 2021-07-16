@@ -1,16 +1,10 @@
 module.exports = {
+  publicPath: './',
+  // 放置静态资源目录
+  assetsDir: 'static',
   devServer: {
     hot: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/api': '',
-        },
-      },
-    },
+    proxy: '',
   },
   runtimeCompiler: true,
   css: {

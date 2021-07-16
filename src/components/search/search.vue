@@ -75,8 +75,8 @@ export default {
     },
     _getHotKey() {
       getHotKey().then((res) => {
-        if (res.data.code === ERR_OK) {
-          this.hotKey = res.data.result.hots;
+        if (res.code === ERR_OK) {
+          this.hotKey = res.result.hots;
         }
       });
     },
