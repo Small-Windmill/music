@@ -15,10 +15,12 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+项目搭配**[网易云音乐接口](https://neteasecloudmusicapi.vercel.app/#/)。**
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+运行效果：
+
+![Image](https://gitee.com/windzzzz/cloud-image/raw/master/img/one.gif)
+
+![Image](https://gitee.com/windzzzz/cloud-image/raw/master/img/two.gif)
+
+![Image](https://gitee.com/windzzzz/cloud-image/raw/master/img/three.gif)

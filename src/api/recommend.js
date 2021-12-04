@@ -4,12 +4,12 @@ import axios from './axios';
 export function getRecommend() {
   // const url = '/api/getDigitalAlbumLists';
   // return jsonp(url);
-  return axios.get('/banner');
+  return axios.get('/api/banner');
 }
 export function getDiscList() {
-  return axios.get('/personalized');
+  return axios.get('/api/personalized');
 }
 
 export function getSongList(id) {
-  return axios.get(`/playlist/detail?id=${id}`);
+  return axios.get(`/api/playlist/detail?id=${id}`);
 }

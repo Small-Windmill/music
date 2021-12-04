@@ -83,7 +83,9 @@ export default {
       console.log(item);
     },
     _getRecommend() {
+      console.log('111');
       getRecommend().then((res) => {
+        console.log(res);
         if (res.code === ERR_OK) {
           this.recommends = res.banners;
         }

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const request = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
-  timeout: 3000, // 超时时间
+  timeout: 10000, // 超时时间
   withCredentials: true,
 });
 request.interceptors.response.use((res) => {
