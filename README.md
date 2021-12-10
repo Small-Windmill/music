@@ -20,7 +20,7 @@ npm run build
 
 ## 项目简介
 
-基于Vue.js开发的一款移动端音乐播放器app，数据通过调用**[网易云音乐接口](https://neteasecloudmusicapi.vercel.app/#/)获取。**
+基于Vue.js开发的一款移动端音乐播放器app，数据通过调用[网易云音乐接口](https://neteasecloudmusicapi.vercel.app/#/)获取。
 
 ## 实现功能
 
